@@ -714,6 +714,23 @@
   display: block;
 }
 
+.newsletter-article-banner {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--nl-line);
+}
+
+.newsletter-article-banner a {
+  display: block;
+}
+
+.newsletter-article-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--nl-radius-sm);
+}
+
 .newsletter-lightbox-trigger {
   display: block;
   text-decoration: none;

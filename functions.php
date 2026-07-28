@@ -269,6 +269,21 @@ function avf_register_newsletter_acf_fields() {
           'preview_size' => 'medium',
         ),
         array(
+          'key' => 'field_avf_article_image_1_caption_' . $i,
+          'label' => 'Article Image 1 Caption',
+          'name' => 'article_image_1_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_1_alt_' . $i,
+          'label' => 'Article Image 1 Alt Text',
+          'name' => 'article_image_1_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
+        ),
+        array(
           'key' => 'field_avf_article_image_2_' . $i,
           'label' => 'Article Image 2',
           'name' => 'article_image_2',
@@ -277,12 +292,42 @@ function avf_register_newsletter_acf_fields() {
           'preview_size' => 'medium',
         ),
         array(
+          'key' => 'field_avf_article_image_2_caption_' . $i,
+          'label' => 'Article Image 2 Caption',
+          'name' => 'article_image_2_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_2_alt_' . $i,
+          'label' => 'Article Image 2 Alt Text',
+          'name' => 'article_image_2_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
+        ),
+        array(
           'key' => 'field_avf_article_image_3_' . $i,
           'label' => 'Article Image 3',
           'name' => 'article_image_3',
           'type' => 'image',
           'return_format' => 'array',
           'preview_size' => 'medium',
+        ),
+        array(
+          'key' => 'field_avf_article_image_3_caption_' . $i,
+          'label' => 'Article Image 3 Caption',
+          'name' => 'article_image_3_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_3_alt_' . $i,
+          'label' => 'Article Image 3 Alt Text',
+          'name' => 'article_image_3_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
         ),
         array(
           'key' => 'field_avf_article_additional_images_' . $i,
@@ -294,6 +339,61 @@ function avf_register_newsletter_acf_fields() {
           'filters' => array('search'),
           'elements' => array('featured_image'),
           'return_format' => 'id',
+        ),
+        array(
+          'key' => 'field_avf_article_show_bottom_banner_' . $i,
+          'label' => 'Show Bottom Ad Banner',
+          'name' => 'article_show_bottom_banner_ad',
+          'type' => 'true_false',
+          'ui' => 1,
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_image_' . $i,
+          'label' => 'Bottom Ad Banner Image',
+          'name' => 'article_bottom_banner_ad_image',
+          'type' => 'image',
+          'return_format' => 'array',
+          'preview_size' => 'medium',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_url_' . $i,
+          'label' => 'Bottom Ad Destination URL',
+          'name' => 'article_bottom_banner_ad_url',
+          'type' => 'url',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_alt_' . $i,
+          'label' => 'Bottom Ad Alt Text',
+          'name' => 'article_bottom_banner_ad_alt',
+          'type' => 'text',
+          'default_value' => 'Advertisement',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
         ),
         array(
           'key' => 'field_avf_article_custom_css_' . $i,

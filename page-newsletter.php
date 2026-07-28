@@ -104,6 +104,19 @@ for ($i = 1; $i <= 8; $i++) {
     for ($j = 1; $j <= 3; $j++) {
       $image = $article['article_image_' . $j] ?? null;
       if (!empty($image)) {
+        if (is_array($image)) {
+          $custom_caption = trim((string) ($article['article_image_' . $j . '_caption'] ?? ''));
+          $custom_alt = trim((string) ($article['article_image_' . $j . '_alt'] ?? ''));
+
+          if ($custom_caption !== '') {
+            $image['caption'] = $custom_caption;
+          }
+
+          if ($custom_alt !== '') {
+            $image['alt'] = $custom_alt;
+          }
+        }
+
         $images[] = $image;
       }
     }
