@@ -265,6 +265,14 @@ function avf_register_newsletter_acf_fields() {
           'media_upload' => 1,
         ),
         array(
+          'key' => 'field_avf_article_images_accordion_' . $i,
+          'label' => 'Article Images',
+          'name' => '',
+          'type' => 'accordion',
+          'open' => 0,
+          'multi_expand' => 1,
+        ),
+        array(
           'key' => 'field_avf_article_image_1_' . $i,
           'label' => 'Article Image 1',
           'name' => 'article_image_1',
@@ -298,6 +306,13 @@ function avf_register_newsletter_acf_fields() {
           'filters' => array('search'),
           'elements' => array('featured_image'),
           'return_format' => 'id',
+        ),
+        array(
+          'key' => 'field_avf_article_images_accordion_end_' . $i,
+          'label' => '',
+          'name' => '',
+          'type' => 'accordion',
+          'endpoint' => 1,
         ),
       ), $extra_image_fields),
     );
@@ -356,6 +371,13 @@ function avf_register_newsletter_acf_fields() {
       'instructions' => 'Describe the image for visitors using screen readers.',
     );
   }
+  $cpt_extra_image_fields[] = array(
+    'key' => 'field_avf_cpt_article_images_accordion_end',
+    'label' => '',
+    'name' => '',
+    'type' => 'accordion',
+    'endpoint' => 1,
+  );
 
   acf_add_local_field_group(array(
     'key' => 'group_avf_newsletter',
@@ -526,6 +548,14 @@ function avf_register_newsletter_acf_fields() {
         'tabs' => 'all',
         'toolbar' => 'full',
         'media_upload' => 1,
+      ),
+      array(
+        'key' => 'field_avf_cpt_article_images_accordion',
+        'label' => 'Article Images',
+        'name' => '',
+        'type' => 'accordion',
+        'open' => 0,
+        'multi_expand' => 1,
       ),
       array(
         'key' => 'field_avf_cpt_article_image_1',

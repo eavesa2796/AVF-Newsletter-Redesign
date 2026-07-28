@@ -288,6 +288,14 @@ function avf_register_newsletter_acf_fields() {
           'media_upload' => 1,
         ),
         array(
+          'key' => 'field_avf_article_images_accordion_' . $i,
+          'label' => 'Article Images',
+          'name' => '',
+          'type' => 'accordion',
+          'open' => 0,
+          'multi_expand' => 1,
+        ),
+        array(
           'key' => 'field_avf_article_image_1_' . $i,
           'label' => 'Article Image 1',
           'name' => 'article_image_1',
@@ -366,6 +374,13 @@ function avf_register_newsletter_acf_fields() {
           'filters' => array('search'),
           'elements' => array('featured_image'),
           'return_format' => 'id',
+        ),
+        array(
+          'key' => 'field_avf_article_images_accordion_end_' . $i,
+          'label' => '',
+          'name' => '',
+          'type' => 'accordion',
+          'endpoint' => 1,
         ),
         array(
           'key' => 'field_avf_article_show_bottom_banner_' . $i,
