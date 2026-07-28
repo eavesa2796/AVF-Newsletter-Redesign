@@ -571,43 +571,59 @@ function avf_sticky_publish_box() {
     return;
   }
   ?>
-  <style>
-    @media screen and (min-width: 851px) {
-      body.post-php #postbox-container-1 #side-sortables,
-      body.post-new-php #postbox-container-1 #side-sortables {
-        overflow: visible;
-      }
-
-      body.post-php #postbox-container-1 #submitdiv,
-      body.post-new-php #postbox-container-1 #submitdiv {
-        position: sticky;
-        top: 46px;
-        z-index: 20;
-      }
-    }
-  </style>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var content = document.getElementById('post-body-content');
-      var sidebar = document.getElementById('side-sortables');
+      var publishBox = document.getElementById('submitdiv');
+      var editor = document.getElementById('poststuff');
 
-      if (!content || !sidebar || window.innerWidth < 851) {
+      if (!publishBox || !editor) {
         return;
       }
 
-      function syncSidebarHeight() {
-        sidebar.style.minHeight = Math.max(
-          content.scrollHeight,
-          window.innerHeight - 80
+      var placeholder = document.createElement('div');
+      placeholder.setAttribute('aria-hidden', 'true');
+      publishBox.parentNode.insertBefore(placeholder, publishBox);
+
+      function resetPublishBox() {
+        placeholder.style.height = '0';
+        publishBox.style.position = '';
+        publishBox.style.top = '';
+        publishBox.style.left = '';
+        publishBox.style.width = '';
+        publishBox.style.zIndex = '';
+      }
+
+      function positionPublishBox() {
+        if (window.innerWidth < 851) {
+          resetPublishBox();
+          return;
+        }
+
+        var stickyTop = 46;
+        var bottomGap = 20;
+        var placeholderRect = placeholder.getBoundingClientRect();
+        var editorRect = editor.getBoundingClientRect();
+        var boxHeight = publishBox.offsetHeight;
+
+        if (placeholderRect.top > stickyTop) {
+          resetPublishBox();
+          return;
+        }
+
+        placeholder.style.height = boxHeight + 'px';
+        publishBox.style.position = 'fixed';
+        publishBox.style.left = placeholderRect.left + 'px';
+        publishBox.style.width = placeholderRect.width + 'px';
+        publishBox.style.zIndex = '100';
+        publishBox.style.top = Math.min(
+          stickyTop,
+          editorRect.bottom - boxHeight - bottomGap
         ) + 'px';
       }
 
-      syncSidebarHeight();
-      window.addEventListener('resize', syncSidebarHeight);
-
-      if ('ResizeObserver' in window) {
-        new ResizeObserver(syncSidebarHeight).observe(content);
-      }
+      window.addEventListener('scroll', positionPublishBox, { passive: true });
+      window.addEventListener('resize', positionPublishBox);
+      positionPublishBox();
     });
   </script>
   <?php
