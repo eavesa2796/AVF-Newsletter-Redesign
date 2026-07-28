@@ -505,6 +505,7 @@
 
 .newsletter-article {
   position: relative;
+  scroll-margin-top: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: clamp(1.25rem, 3vw, 2.35rem);
@@ -712,6 +713,23 @@
   height: auto;
   object-fit: cover;
   display: block;
+}
+
+.newsletter-article-banner {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--nl-line);
+}
+
+.newsletter-article-banner a {
+  display: block;
+}
+
+.newsletter-article-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--nl-radius-sm);
 }
 
 .newsletter-lightbox-trigger {

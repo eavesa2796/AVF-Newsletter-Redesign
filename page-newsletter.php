@@ -101,9 +101,22 @@ for ($i = 1; $i <= 8; $i++) {
     }
 
     $images = [];
-    for ($j = 1; $j <= 3; $j++) {
+    for ($j = 1; $j <= 8; $j++) {
       $image = $article['article_image_' . $j] ?? null;
       if (!empty($image)) {
+        if (is_array($image)) {
+          $custom_caption = trim((string) ($article['article_image_' . $j . '_caption'] ?? ''));
+          $custom_alt = trim((string) ($article['article_image_' . $j . '_alt'] ?? ''));
+
+          if ($custom_caption !== '') {
+            $image['caption'] = $custom_caption;
+          }
+
+          if ($custom_alt !== '') {
+            $image['alt'] = $custom_alt;
+          }
+        }
+
         $images[] = $image;
       }
     }
@@ -202,6 +215,22 @@ foreach ($articles as $index => $article) {
 $page_offset = ($current_page - 1) * $articles_per_page;
 $visible_articles = array_slice($articles, $page_offset, $articles_per_page);
 
+$get_newsletter_page_url = function ($page) use ($articles, $articles_per_page) {
+  $page = max(1, (int) $page);
+  $page_url = $page === 1
+    ? remove_query_arg('nl_page', get_permalink())
+    : add_query_arg('nl_page', $page, get_permalink());
+
+  $first_article_index = ($page - 1) * $articles_per_page;
+  $first_article_anchor = $articles[$first_article_index]['article_anchor_id'] ?? '';
+
+  if ($first_article_anchor !== '') {
+    $page_url .= '#' . $first_article_anchor;
+  }
+
+  return $page_url;
+};
+
 get_template_part('template-parts/newsletter/header', null, [
   'newsletter' => $newsletter,
 ]);
@@ -222,16 +251,12 @@ if ($total_pages > 1) {
 
   if ($current_page > 1) {
     $prev_page = $current_page - 1;
-    $prev_url = $prev_page === 1
-      ? remove_query_arg('nl_page', get_permalink())
-      : add_query_arg('nl_page', $prev_page, get_permalink());
+    $prev_url = $get_newsletter_page_url($prev_page);
     echo '<a class="newsletter-page-link newsletter-page-prev" href="' . esc_url($prev_url) . '">Previous</a>';
   }
 
   for ($page = 1; $page <= $total_pages; $page++) {
-    $page_url = $page === 1
-      ? remove_query_arg('nl_page', get_permalink())
-      : add_query_arg('nl_page', $page, get_permalink());
+    $page_url = $get_newsletter_page_url($page);
     $is_current = $page === $current_page;
 
     echo '<a class="newsletter-page-link' . ($is_current ? ' is-current' : '') . '" href="' . esc_url($page_url) . '"' . ($is_current ? ' aria-current="page"' : '') . '>' . esc_html((string) $page) . '</a>';
@@ -239,7 +264,7 @@ if ($total_pages > 1) {
 
   if ($current_page < $total_pages) {
     $next_page = $current_page + 1;
-    $next_url = add_query_arg('nl_page', $next_page, get_permalink());
+    $next_url = $get_newsletter_page_url($next_page);
     echo '<a class="newsletter-page-link newsletter-page-next" href="' . esc_url($next_url) . '">Next</a>';
   }
 

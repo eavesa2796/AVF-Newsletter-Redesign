@@ -43,7 +43,7 @@ $lightbox_group = $args['lightbox_group'] ?? 'newsletter';
           </a>
 
           <?php if (!empty($caption)) : ?>
-            <figcaption><?php echo esc_html($caption); ?></figcaption>
+            <figcaption><?php echo wp_kses_post($caption); ?></figcaption>
           <?php endif; ?>
         </figure>
         <?php $rendered_image_index++; ?>

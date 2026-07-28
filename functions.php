@@ -137,13 +137,40 @@ function avf_register_newsletter_acf_fields() {
 
   $article_groups = array();
   for ($i = 1; $i <= 8; $i++) {
+    $extra_image_fields = array();
+    for ($image_number = 4; $image_number <= 8; $image_number++) {
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_' . $i,
+        'label' => 'Article Image ' . $image_number,
+        'name' => 'article_image_' . $image_number,
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'medium',
+      );
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_caption_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Caption',
+        'name' => 'article_image_' . $image_number . '_caption',
+        'type' => 'textarea',
+        'rows' => 2,
+        'new_lines' => 'br',
+      );
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_alt_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Alt Text',
+        'name' => 'article_image_' . $image_number . '_alt',
+        'type' => 'text',
+        'instructions' => 'Describe the image for visitors using screen readers.',
+      );
+    }
+
     $article_groups[] = array(
       'key' => 'field_avf_newsletter_article_group_' . $i,
       'label' => 'Article ' . $i,
       'name' => 'newsletter_article_' . $i,
       'type' => 'group',
       'layout' => 'block',
-      'sub_fields' => array(
+      'sub_fields' => array_merge(array(
         array(
           'key' => 'field_avf_article_id_' . $i,
           'label' => 'Anchor ID (optional)',
@@ -261,12 +288,35 @@ function avf_register_newsletter_acf_fields() {
           'media_upload' => 1,
         ),
         array(
+          'key' => 'field_avf_article_images_accordion_' . $i,
+          'label' => 'Article Images',
+          'name' => '',
+          'type' => 'accordion',
+          'open' => 0,
+          'multi_expand' => 1,
+        ),
+        array(
           'key' => 'field_avf_article_image_1_' . $i,
           'label' => 'Article Image 1',
           'name' => 'article_image_1',
           'type' => 'image',
           'return_format' => 'array',
           'preview_size' => 'medium',
+        ),
+        array(
+          'key' => 'field_avf_article_image_1_caption_' . $i,
+          'label' => 'Article Image 1 Caption',
+          'name' => 'article_image_1_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_1_alt_' . $i,
+          'label' => 'Article Image 1 Alt Text',
+          'name' => 'article_image_1_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
         ),
         array(
           'key' => 'field_avf_article_image_2_' . $i,
@@ -277,12 +327,42 @@ function avf_register_newsletter_acf_fields() {
           'preview_size' => 'medium',
         ),
         array(
+          'key' => 'field_avf_article_image_2_caption_' . $i,
+          'label' => 'Article Image 2 Caption',
+          'name' => 'article_image_2_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_2_alt_' . $i,
+          'label' => 'Article Image 2 Alt Text',
+          'name' => 'article_image_2_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
+        ),
+        array(
           'key' => 'field_avf_article_image_3_' . $i,
           'label' => 'Article Image 3',
           'name' => 'article_image_3',
           'type' => 'image',
           'return_format' => 'array',
           'preview_size' => 'medium',
+        ),
+        array(
+          'key' => 'field_avf_article_image_3_caption_' . $i,
+          'label' => 'Article Image 3 Caption',
+          'name' => 'article_image_3_caption',
+          'type' => 'textarea',
+          'rows' => 2,
+          'new_lines' => 'br',
+        ),
+        array(
+          'key' => 'field_avf_article_image_3_alt_' . $i,
+          'label' => 'Article Image 3 Alt Text',
+          'name' => 'article_image_3_alt',
+          'type' => 'text',
+          'instructions' => 'Describe the image for visitors using screen readers.',
         ),
         array(
           'key' => 'field_avf_article_additional_images_' . $i,
@@ -294,6 +374,68 @@ function avf_register_newsletter_acf_fields() {
           'filters' => array('search'),
           'elements' => array('featured_image'),
           'return_format' => 'id',
+        ),
+        array(
+          'key' => 'field_avf_article_images_accordion_end_' . $i,
+          'label' => '',
+          'name' => '',
+          'type' => 'accordion',
+          'endpoint' => 1,
+        ),
+        array(
+          'key' => 'field_avf_article_show_bottom_banner_' . $i,
+          'label' => 'Show Bottom Ad Banner',
+          'name' => 'article_show_bottom_banner_ad',
+          'type' => 'true_false',
+          'ui' => 1,
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_image_' . $i,
+          'label' => 'Bottom Ad Banner Image',
+          'name' => 'article_bottom_banner_ad_image',
+          'type' => 'image',
+          'return_format' => 'array',
+          'preview_size' => 'medium',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_url_' . $i,
+          'label' => 'Bottom Ad Destination URL',
+          'name' => 'article_bottom_banner_ad_url',
+          'type' => 'url',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
+        ),
+        array(
+          'key' => 'field_avf_article_bottom_banner_alt_' . $i,
+          'label' => 'Bottom Ad Alt Text',
+          'name' => 'article_bottom_banner_ad_alt',
+          'type' => 'text',
+          'default_value' => 'Advertisement',
+          'conditional_logic' => array(
+            array(
+              array(
+                'field' => 'field_avf_article_show_bottom_banner_' . $i,
+                'operator' => '==',
+                'value' => '1',
+              ),
+            ),
+          ),
         ),
         array(
           'key' => 'field_avf_article_custom_css_' . $i,
@@ -310,8 +452,32 @@ function avf_register_newsletter_acf_fields() {
           'type' => 'text',
           'instructions' => 'Optional: add one or more class names (space-separated) to the article text container.',
         ),
-      ),
+      ), $extra_image_fields),
     );
+
+    $article_group_index = count($article_groups) - 1;
+    $article_sub_fields = $article_groups[$article_group_index]['sub_fields'];
+    $extra_field_count = count($extra_image_fields);
+
+    if ($extra_field_count > 0) {
+      $article_sub_fields = array_slice($article_sub_fields, 0, -$extra_field_count);
+    }
+
+    $additional_images_index = count($article_sub_fields);
+    foreach ($article_sub_fields as $field_index => $article_sub_field) {
+      if (($article_sub_field['name'] ?? '') === 'article_additional_images') {
+        $additional_images_index = $field_index;
+        break;
+      }
+    }
+
+    array_splice(
+      $article_sub_fields,
+      $additional_images_index,
+      0,
+      $extra_image_fields
+    );
+    $article_groups[$article_group_index]['sub_fields'] = $article_sub_fields;
   }
 
   acf_add_local_field_group(array(
@@ -413,6 +579,72 @@ JS;
   wp_add_inline_script('jquery', $script);
 }
 add_action('admin_enqueue_scripts', 'avf_newsletter_admin_template_toggle');
+
+function avf_sticky_publish_box() {
+  $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+  if (!$screen || $screen->base !== 'post') {
+    return;
+  }
+  ?>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var publishBox = document.getElementById('submitdiv');
+      var editor = document.getElementById('poststuff');
+
+      if (!publishBox || !editor) {
+        return;
+      }
+
+      var placeholder = document.createElement('div');
+      placeholder.setAttribute('aria-hidden', 'true');
+      publishBox.parentNode.insertBefore(placeholder, publishBox);
+
+      function resetPublishBox() {
+        placeholder.style.height = '0';
+        publishBox.style.position = '';
+        publishBox.style.top = '';
+        publishBox.style.left = '';
+        publishBox.style.width = '';
+        publishBox.style.zIndex = '';
+      }
+
+      function positionPublishBox() {
+        if (window.innerWidth < 851) {
+          resetPublishBox();
+          return;
+        }
+
+        var stickyTop = 46;
+        var bottomGap = 20;
+        var placeholderRect = placeholder.getBoundingClientRect();
+        var editorRect = editor.getBoundingClientRect();
+        var boxHeight = publishBox.offsetHeight;
+
+        if (placeholderRect.top > stickyTop) {
+          resetPublishBox();
+          return;
+        }
+
+        placeholder.style.height = boxHeight + 'px';
+        publishBox.style.position = 'fixed';
+        publishBox.style.left = placeholderRect.left + 'px';
+        publishBox.style.width = placeholderRect.width + 'px';
+        publishBox.style.zIndex = '100';
+        publishBox.style.top = Math.min(
+          stickyTop,
+          editorRect.bottom - boxHeight - bottomGap
+        ) + 'px';
+      }
+
+      window.addEventListener('scroll', positionPublishBox, { passive: true });
+      window.addEventListener('resize', positionPublishBox);
+      positionPublishBox();
+    });
+  </script>
+  <?php
+}
+add_action('admin_head-post.php', 'avf_sticky_publish_box');
+add_action('admin_head-post-new.php', 'avf_sticky_publish_box');
 
 // Fallback: Simple metabox for newsletter fields when ACF is not available
 function avf_register_newsletter_metabox() {

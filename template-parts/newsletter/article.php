@@ -15,6 +15,18 @@ $author_image = $article['author_image'] ?? '';
 $authors = $article['authors'] ?? [];
 $article_content = $article['article_content'] ?? '';
 $article_images = $article['article_images'] ?? [];
+$show_bottom_banner = !empty($article['article_show_bottom_banner_ad']);
+$bottom_banner_image = $article['article_bottom_banner_ad_image'] ?? [];
+$bottom_banner_url = trim((string) ($article['article_bottom_banner_ad_url'] ?? ''));
+$bottom_banner_alt = trim((string) ($article['article_bottom_banner_ad_alt'] ?? ''));
+
+if ($bottom_banner_alt === '' && is_array($bottom_banner_image)) {
+  $bottom_banner_alt = trim((string) ($bottom_banner_image['alt'] ?? ''));
+}
+
+if ($bottom_banner_alt === '') {
+  $bottom_banner_alt = 'Advertisement';
+}
 ?>
 
 <?php if (!empty($title)) : ?>
@@ -44,5 +56,27 @@ $article_images = $article['article_images'] ?? [];
       'lightbox_group' => $id,
     ));
     ?>
+
+    <?php if ($show_bottom_banner && !empty($bottom_banner_image['url'])) : ?>
+      <aside class="newsletter-article-banner" aria-label="Advertisement">
+        <?php if ($bottom_banner_url !== '') : ?>
+          <a
+            href="<?php echo esc_url($bottom_banner_url); ?>"
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+          >
+        <?php endif; ?>
+
+        <img
+          src="<?php echo esc_url($bottom_banner_image['url']); ?>"
+          alt="<?php echo esc_attr($bottom_banner_alt); ?>"
+          loading="lazy"
+        >
+
+        <?php if ($bottom_banner_url !== '') : ?>
+          </a>
+        <?php endif; ?>
+      </aside>
+    <?php endif; ?>
   </article>
 <?php endif; ?>
