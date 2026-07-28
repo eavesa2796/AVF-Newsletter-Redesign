@@ -101,7 +101,7 @@ for ($i = 1; $i <= 8; $i++) {
     }
 
     $images = [];
-    for ($j = 1; $j <= 3; $j++) {
+    for ($j = 1; $j <= 8; $j++) {
       $image = $article['article_image_' . $j] ?? null;
       if (!empty($image)) {
         if (is_array($image)) {

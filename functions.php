@@ -137,13 +137,40 @@ function avf_register_newsletter_acf_fields() {
 
   $article_groups = array();
   for ($i = 1; $i <= 8; $i++) {
+    $extra_image_fields = array();
+    for ($image_number = 4; $image_number <= 8; $image_number++) {
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_' . $i,
+        'label' => 'Article Image ' . $image_number,
+        'name' => 'article_image_' . $image_number,
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'medium',
+      );
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_caption_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Caption',
+        'name' => 'article_image_' . $image_number . '_caption',
+        'type' => 'textarea',
+        'rows' => 2,
+        'new_lines' => 'br',
+      );
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_alt_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Alt Text',
+        'name' => 'article_image_' . $image_number . '_alt',
+        'type' => 'text',
+        'instructions' => 'Describe the image for visitors using screen readers.',
+      );
+    }
+
     $article_groups[] = array(
       'key' => 'field_avf_newsletter_article_group_' . $i,
       'label' => 'Article ' . $i,
       'name' => 'newsletter_article_' . $i,
       'type' => 'group',
       'layout' => 'block',
-      'sub_fields' => array(
+      'sub_fields' => array_merge(array(
         array(
           'key' => 'field_avf_article_id_' . $i,
           'label' => 'Anchor ID (optional)',
@@ -410,7 +437,7 @@ function avf_register_newsletter_acf_fields() {
           'type' => 'text',
           'instructions' => 'Optional: add one or more class names (space-separated) to the article text container.',
         ),
-      ),
+      ), $extra_image_fields),
     );
   }
 
