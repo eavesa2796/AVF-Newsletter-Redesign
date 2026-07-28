@@ -589,6 +589,11 @@ function avf_sticky_publish_box() {
   ?>
   <style>
     @media screen and (min-width: 851px) {
+      body.post-php #postbox-container-1 #side-sortables,
+      body.post-new-php #postbox-container-1 #side-sortables {
+        overflow: visible;
+      }
+
       body.post-php #postbox-container-1 #submitdiv,
       body.post-new-php #postbox-container-1 #submitdiv {
         position: sticky;
@@ -597,6 +602,30 @@ function avf_sticky_publish_box() {
       }
     }
   </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var content = document.getElementById('post-body-content');
+      var sidebar = document.getElementById('side-sortables');
+
+      if (!content || !sidebar || window.innerWidth < 851) {
+        return;
+      }
+
+      function syncSidebarHeight() {
+        sidebar.style.minHeight = Math.max(
+          content.scrollHeight,
+          window.innerHeight - 80
+        ) + 'px';
+      }
+
+      syncSidebarHeight();
+      window.addEventListener('resize', syncSidebarHeight);
+
+      if ('ResizeObserver' in window) {
+        new ResizeObserver(syncSidebarHeight).observe(content);
+      }
+    });
+  </script>
   <?php
 }
 add_action('admin_head-post.php', 'avf_sticky_publish_box');
