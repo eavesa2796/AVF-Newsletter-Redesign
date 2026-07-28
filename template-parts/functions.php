@@ -301,6 +301,30 @@ function avf_register_newsletter_acf_fields() {
         ),
       ), $extra_image_fields),
     );
+
+    $article_group_index = count($article_groups) - 1;
+    $article_sub_fields = $article_groups[$article_group_index]['sub_fields'];
+    $extra_field_count = count($extra_image_fields);
+
+    if ($extra_field_count > 0) {
+      $article_sub_fields = array_slice($article_sub_fields, 0, -$extra_field_count);
+    }
+
+    $additional_images_index = count($article_sub_fields);
+    foreach ($article_sub_fields as $field_index => $article_sub_field) {
+      if (($article_sub_field['name'] ?? '') === 'article_additional_images') {
+        $additional_images_index = $field_index;
+        break;
+      }
+    }
+
+    array_splice(
+      $article_sub_fields,
+      $additional_images_index,
+      0,
+      $extra_image_fields
+    );
+    $article_groups[$article_group_index]['sub_fields'] = $article_sub_fields;
   }
 
   $cpt_extra_image_fields = array();
