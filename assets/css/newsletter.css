@@ -505,6 +505,7 @@
 
 .newsletter-article {
   position: relative;
+  scroll-margin-top: 2rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
   padding: clamp(1.25rem, 3vw, 2.35rem);
