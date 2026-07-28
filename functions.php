@@ -565,6 +565,27 @@ JS;
 }
 add_action('admin_enqueue_scripts', 'avf_newsletter_admin_template_toggle');
 
+function avf_sticky_publish_box() {
+  $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+  if (!$screen || $screen->base !== 'post') {
+    return;
+  }
+  ?>
+  <style>
+    @media screen and (min-width: 851px) {
+      body.post-php #postbox-container-1 #submitdiv,
+      body.post-new-php #postbox-container-1 #submitdiv {
+        position: sticky;
+        top: 46px;
+        z-index: 20;
+      }
+    }
+  </style>
+  <?php
+}
+add_action('admin_head-post.php', 'avf_sticky_publish_box');
+add_action('admin_head-post-new.php', 'avf_sticky_publish_box');
+
 // Fallback: Simple metabox for newsletter fields when ACF is not available
 function avf_register_newsletter_metabox() {
   if (function_exists('acf_add_local_field_group')) {
