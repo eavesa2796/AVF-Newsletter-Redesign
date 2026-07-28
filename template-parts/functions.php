@@ -123,13 +123,43 @@ function avf_register_newsletter_acf_fields() {
 
   $article_groups = array();
   for ($i = 1; $i <= 8; $i++) {
+    $extra_image_fields = array();
+    for ($image_number = 1; $image_number <= 8; $image_number++) {
+      if ($image_number > 3) {
+        $extra_image_fields[] = array(
+          'key' => 'field_avf_article_image_' . $image_number . '_' . $i,
+          'label' => 'Article Image ' . $image_number,
+          'name' => 'article_image_' . $image_number,
+          'type' => 'image',
+          'return_format' => 'array',
+          'preview_size' => 'medium',
+        );
+      }
+
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_caption_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Caption',
+        'name' => 'article_image_' . $image_number . '_caption',
+        'type' => 'textarea',
+        'rows' => 2,
+        'new_lines' => 'br',
+      );
+      $extra_image_fields[] = array(
+        'key' => 'field_avf_article_image_' . $image_number . '_alt_' . $i,
+        'label' => 'Article Image ' . $image_number . ' Alt Text',
+        'name' => 'article_image_' . $image_number . '_alt',
+        'type' => 'text',
+        'instructions' => 'Describe the image for visitors using screen readers.',
+      );
+    }
+
     $article_groups[] = array(
       'key' => 'field_avf_newsletter_article_group_' . $i,
       'label' => 'Article ' . $i,
       'name' => 'newsletter_article_' . $i,
       'type' => 'group',
       'layout' => 'block',
-      'sub_fields' => array(
+      'sub_fields' => array_merge(array(
         array(
           'key' => 'field_avf_article_id_' . $i,
           'label' => 'Anchor ID (optional)',
@@ -269,7 +299,37 @@ function avf_register_newsletter_acf_fields() {
           'elements' => array('featured_image'),
           'return_format' => 'id',
         ),
-      ),
+      ), $extra_image_fields),
+    );
+  }
+
+  $cpt_extra_image_fields = array();
+  for ($image_number = 1; $image_number <= 8; $image_number++) {
+    if ($image_number > 3) {
+      $cpt_extra_image_fields[] = array(
+        'key' => 'field_avf_cpt_article_image_' . $image_number,
+        'label' => 'Article Image ' . $image_number,
+        'name' => 'article_image_' . $image_number,
+        'type' => 'image',
+        'return_format' => 'array',
+        'preview_size' => 'medium',
+      );
+    }
+
+    $cpt_extra_image_fields[] = array(
+      'key' => 'field_avf_cpt_article_image_' . $image_number . '_caption',
+      'label' => 'Article Image ' . $image_number . ' Caption',
+      'name' => 'article_image_' . $image_number . '_caption',
+      'type' => 'textarea',
+      'rows' => 2,
+      'new_lines' => 'br',
+    );
+    $cpt_extra_image_fields[] = array(
+      'key' => 'field_avf_cpt_article_image_' . $image_number . '_alt',
+      'label' => 'Article Image ' . $image_number . ' Alt Text',
+      'name' => 'article_image_' . $image_number . '_alt',
+      'type' => 'text',
+      'instructions' => 'Describe the image for visitors using screen readers.',
     );
   }
 
@@ -334,7 +394,7 @@ function avf_register_newsletter_acf_fields() {
   acf_add_local_field_group(array(
     'key' => 'group_avf_newsletter_article_fields',
     'title' => 'Newsletter Article Details',
-    'fields' => array(
+    'fields' => array_merge(array(
       array(
         'key' => 'field_avf_cpt_article_id',
         'label' => 'Anchor ID (optional)',
@@ -478,7 +538,7 @@ function avf_register_newsletter_acf_fields() {
         'elements' => array('featured_image'),
         'return_format' => 'id',
       ),
-    ),
+    ), $cpt_extra_image_fields),
     'location' => array(
       array(
         array(

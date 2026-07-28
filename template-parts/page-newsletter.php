@@ -101,9 +101,22 @@ if (is_array($selected_article_ids) && !empty($selected_article_ids)) {
     }
 
     $images = [];
-    for ($j = 1; $j <= 3; $j++) {
+    for ($j = 1; $j <= 8; $j++) {
       $image = get_field('article_image_' . $j, $article_id);
       if (!empty($image)) {
+        if (is_array($image)) {
+          $custom_caption = trim((string) get_field('article_image_' . $j . '_caption', $article_id));
+          $custom_alt = trim((string) get_field('article_image_' . $j . '_alt', $article_id));
+
+          if ($custom_caption !== '') {
+            $image['caption'] = $custom_caption;
+          }
+
+          if ($custom_alt !== '') {
+            $image['alt'] = $custom_alt;
+          }
+        }
+
         $images[] = $image;
       }
     }
@@ -170,9 +183,22 @@ if (is_array($selected_article_ids) && !empty($selected_article_ids)) {
     }
 
     $images = [];
-    for ($j = 1; $j <= 3; $j++) {
+    for ($j = 1; $j <= 8; $j++) {
       $image = $article['article_image_' . $j] ?? null;
       if (!empty($image)) {
+        if (is_array($image)) {
+          $custom_caption = trim((string) ($article['article_image_' . $j . '_caption'] ?? ''));
+          $custom_alt = trim((string) ($article['article_image_' . $j . '_alt'] ?? ''));
+
+          if ($custom_caption !== '') {
+            $image['caption'] = $custom_caption;
+          }
+
+          if ($custom_alt !== '') {
+            $image['alt'] = $custom_alt;
+          }
+        }
+
         $images[] = $image;
       }
     }

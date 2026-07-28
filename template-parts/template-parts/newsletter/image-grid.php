@@ -18,7 +18,7 @@ $images = $args['images'] ?? [];
           >
 
           <?php if (!empty($caption)) : ?>
-            <figcaption><?php echo esc_html($caption); ?></figcaption>
+            <figcaption><?php echo wp_kses_post($caption); ?></figcaption>
           <?php endif; ?>
         </figure>
       <?php endif; ?>
